@@ -20,16 +20,23 @@ class SimpleReflexAgent:
     def clean(self, env: Environment, iniital_position: str):
         self.vacuum_loc = iniital_position
         self.score = 0
+        self.positions = []
         for _ in range(1000):
+            self.positions.append(self.vacuum_loc)
+            print('Position:', self.vacuum_loc, end=" ")
             if env.room_dict[self.vacuum_loc]:
+                print('Action: SUCK')
                 self.suck(env, self.vacuum_loc)
             else:
                 if self.vacuum_loc == 'A':
+                    print('Action: RIGHT')
                     self.right()
                 else:
+                    print('Action: LEFT')
                     self.left()
             self.score += sum(not env.room_dict[key] for key in env.room_dict)
         print('Score =',self.score)
+        print('State space search path:', '->'.join(self.positions))
         
 vacuum_cleaner = SimpleReflexAgent()
 
